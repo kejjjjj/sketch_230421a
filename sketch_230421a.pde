@@ -53,7 +53,7 @@ class Game
   }
   void draw_tiles()
   {
-    for(int i =0 ; i < tiles.length; i++){ //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>// //<>//
+    for(int i =0 ; i < tiles.length; i++){ //<>// //<>//
       fill(tiles[i].col);
       rect(tiles[i].pos.x, tiles[i].pos.y, tile_size, tile_size); 
     }
@@ -63,6 +63,7 @@ class Game
 PVector window_size = new PVector(640, 640);
 int tile_size = 40;
 Game game = new Game(225); //15x15
+Snake snake = new Snake();
 
 void setup()
 {
@@ -76,5 +77,6 @@ void setup()
 void draw()
 {
     game.draw_tiles();
+    snake.update();
     //text(str(12), 100, 100);
 }
