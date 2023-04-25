@@ -22,10 +22,9 @@ class Tile
           return game.tiles[index - game.columns];
             
         case EAST:
-          int remainder = index % game.columns;
-          //if the remainder is 0, then this cell is at the right edge
-          if (remainder == game.columns - 1) {
-            return null;
+          int remainder = (index+1) % (game.columns);
+          if (remainder == 0 && index > 1) {
+            return null; //<>// //<>//
           }
           return game.tiles[index + 1];
           
@@ -95,12 +94,13 @@ class Game
         tiles[i].pos.y = y;
         tiles[i].pos.x = x;
       }
-      dimensions = new PVector(columns * tile_size, rows * tile_size);
     }
+          dimensions = new PVector(++columns * tile_size, ++rows * tile_size);
+      println(str(columns) + "x" + str(rows));
   }
   void draw_tiles()
   {
-    for(int i =0 ; i < tiles.length; i++){ //<>// //<>//
+    for(int i =0 ; i < tiles.length; i++){
       fill(tiles[i].col);
       rect(tiles[i].pos.x, tiles[i].pos.y, tile_size, tile_size); 
     }
@@ -113,6 +113,7 @@ Game game = new Game(225); //15x15
 Snake snake = new Snake();
 int lastTime = 0;
 float elapsedtime = 0;
+Edible edible = new Edible(color(255,0,0));
 
 void setup()
 {
@@ -129,6 +130,7 @@ void draw()
       elapsedtime = float(millis() - lastTime) / 100;
       game.draw_tiles();
       snake.update();
+      
       lastTime = millis();     
       text(str(elapsedtime), 100, 100);
     }
@@ -136,4 +138,17 @@ void draw()
     {
       println("exception caught: " + err);
     }
+}
+void keyPressed() 
+{
+  var dir = dirs.get(char(key));
+   if(dir != null){
+       dir.KeyPressEvent();
+       //snake.update();
+   }
+}
+void keyReleased()
+{
+   if(dirs.get(char(key)) != null)
+       dirs.get(char(key)).KeyReleaseEvent();
 }
