@@ -24,7 +24,7 @@ class Tile
         case EAST:
           int remainder = (index+1) % (game.columns);
           if (remainder == 0 && index > 1) {
-            return null; //<>// //<>//
+            return null; //<>//
           }
           return game.tiles[index + 1];
           
@@ -114,14 +114,16 @@ Snake snake = new Snake();
 int lastTime = 0;
 float elapsedtime = 0;
 Edible edible = new Edible(color(255,0,0));
-
+PFont font;
 void setup()
 {
-  frameRate(60);
-  size(600, 600);
+  frameRate(125);
+  size(600, 640);
   game.init_tiles();
-  background(255);
-  
+  background(color(144, 238, 144));
+  font = createFont("ConduitITC-Light-48.vlw", 28);
+  textFont(font);
+
 }
 
 void draw()
@@ -130,9 +132,19 @@ void draw()
       elapsedtime = float(millis() - lastTime) / 100;
       game.draw_tiles();
       snake.update();
+    
+      fill(color(255,255,255));
+      rect(0, 600, 600, 40);
+      fill(0);
+      text("Score: " + snake.body.length, 10, 630);
+      
+      if(snake.dead == true)
+    {
+    snake = new Snake();
+    }
       
       lastTime = millis();     
-      text(str(elapsedtime), 100, 100);
+     // text(str(elapsedtime), 100, 100);
     }
     catch(Exception err)
     {
